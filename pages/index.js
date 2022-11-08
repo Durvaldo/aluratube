@@ -7,7 +7,7 @@ import { StyledTimeline } from "../src/components/Timeline"
 
 function HomePage() {
 
-    const [valorDoFiltro, setValorDoFiltro] = React.useState("Angular");
+    const [valorDoFiltro, setValorDoFiltro] = React.useState("");
     // console.log(config.playlist)
    
     return (
