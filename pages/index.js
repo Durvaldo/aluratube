@@ -45,7 +45,7 @@ const StyledHeader = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 300px;
+        height: 230px;
     }
     .user-banner img {
         height: 100%;
@@ -98,9 +98,9 @@ function Timeline({searchVal, ...props}) {
         <StyledTimeline>
             {playlistNames.map((playlistName) => {
                 const videos = props.playlists[playlistName]
-                console.log(videos)
+                // console.log(videos)
                 return (
-                    <section>
+                    <section key={playlistName}>
                         <h2>{playlistName}</h2>
                         <div>
                             {videos
@@ -111,7 +111,7 @@ function Timeline({searchVal, ...props}) {
                                 })
                                 .map((video) => {
                                     return (
-                                        <a href={video.url}>
+                                        <a key={video.url} href={video.url}>
                                             <img src={video.thumb}/>
                                             <span>
                                                 {video.title}
