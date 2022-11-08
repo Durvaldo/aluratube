@@ -42,18 +42,28 @@ export default HomePage
 // prettier
 
 const StyledHeader = styled.div`
-    img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
+    .user-banner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+    }
+    .user-banner img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover
     }
     .user-info {
-        margin-top: 50px;
         display: flex;
         align-items: center;
         width: 100%;
         padding: 10px 32px;
         gap: 10px;
+    }
+    .user-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
     }
 `
 
@@ -62,9 +72,11 @@ function Header() {
 
     return (
         <StyledHeader>
-            {/* <img src="banner" /> */}
+            <div className="user-banner">
+                <img  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80" />
+            </div>
             <section className="user-info">
-                <img src={`https://github.com/${config.Github}.png`} />
+                <img className="user-img" src={`https://github.com/${config.Github}.png`} />
                 <div>
                     <h2>
                         {config.name}
