@@ -2,7 +2,7 @@ import React from "react";
 import config from "../config.json"
 import styled from "styled-components"
 import { CSSReset } from "../src/components/CSSReset"
-import Menu from "../src/components/Menu"
+import Menu from "../src/components/Menu/Index"
 import { StyledTimeline } from "../src/components/Timeline"
 
 function HomePage() {
@@ -103,19 +103,23 @@ function Timeline({searchVal, ...props}) {
                     <section>
                         <h2>{playlistName}</h2>
                         <div>
-                            {videos.filter((video) => {
-
-                                return video.title.includes(searchVal)
-                            }).map((video) => {
-                                return (
-                                    <a href={video.url}>
-                                        <img src={video.thumb}/>
-                                        <span>
-                                            {video.title}
-                                        </span>
-                                    </a>
-                                )
-                            })}
+                            {videos
+                                .filter((video) => {
+                                    const titleNormalized = video.title.toLowerCase()
+                                    const searchValNormalized = searchVal.toLowerCase()
+                                    return titleNormalized.includes(searchValNormalized)
+                                })
+                                .map((video) => {
+                                    return (
+                                        <a href={video.url}>
+                                            <img src={video.thumb}/>
+                                            <span>
+                                                {video.title}
+                                            </span>
+                                        </a>
+                                    )
+                                }
+                            )}
                         </div>
                     </section>
                 )
