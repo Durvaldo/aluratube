@@ -3,12 +3,31 @@ import config from "../config.json"
 import styled from "styled-components"
 import Menu from "../src/components/Menu/Index"
 import { StyledTimeline } from "../src/components/Timeline"
+import { createClient } from "@supabase/supabase-js";
+import { videoService } from "../src/services/videoService";
 
 function HomePage() {
-
+    const service = videoService()
     const [valorDoFiltro, setValorDoFiltro] = React.useState("");
-    // console.log(config.playlist)
+    const [playlists, setPlaylists] = React.useState({});
+
+    React.useEffect(() => {
+        service
+            .getAllVideos()
+            .then((response) => {
+                const novasPlaylists = {...playlists};
+                response.data.forEach((video) => {
+                    if (!novasPlaylists[video.playlist]) {
+                        novasPlaylists[video.playlist] = []
+                    }
+                    novasPlaylists[video.playlist].push(video)
+                })
+                setPlaylists(novasPlaylists)
+            })
+    }, [])
    
+    console.log("playlist feita", playlists)
+
     return (
         <>
             <div style={{
@@ -19,7 +38,7 @@ function HomePage() {
             }} >
                 <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
                 <Header/>
-                <Timeline searchVal={valorDoFiltro} playlists={config.playlist}/>
+                <Timeline searchVal={valorDoFiltro} playlists={playlists}/>
             </div>
         </>
     )
@@ -105,7 +124,7 @@ function Timeline({searchVal, ...props}) {
                         <div>
                             {videos
                                 .filter((video) => {
-                                    const titleNormalized = video.title.toLowerCase()
+                                    const titleNormalized = video.titulo.toLowerCase()
                                     const searchValNormalized = searchVal.toLowerCase()
                                     return titleNormalized.includes(searchValNormalized)
                                 })
@@ -114,7 +133,7 @@ function Timeline({searchVal, ...props}) {
                                         <a key={video.url} href={video.url}>
                                             <img src={video.thumb}/>
                                             <span>
-                                                {video.title}
+                                                {video.titulo}
                                             </span>
                                         </a>
                                     )

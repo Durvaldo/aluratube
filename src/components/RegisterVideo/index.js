@@ -1,4 +1,5 @@
 import React from "react";
+import { createClient } from "@supabase/supabase-js";
 import { StyledRegisterVideo } from "./styles";
 
 
@@ -22,6 +23,16 @@ function useForm(propsDoForm) {
     };
 }
 
+const PROJECT_URL = "https://deuoeynolpybhxhczosj.supabase.co"
+const PUBLIC_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRldW9leW5vbHB5Ymh4aGN6b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgzNjM2MjYsImV4cCI6MTk4MzkzOTYyNn0.UXL99Z0jAoDf_pDVcrrgA5Tuk14n7knpLVVBVQvWgLY"
+const supabase = createClient(PROJECT_URL, PUBLIC_KEY)
+
+function getThumbnail(url) {
+    return `https://img.youtube.com/vi/${url.split("v=")[1]}/hqdefault.jpg`
+}
+
+// https://img.youtube.com/vi/QsqatJxAUtk/hqdefault.jpg
+
 export default function RegisterVideo() {
     const formCadastro = useForm({
         initialValues: {titulo: "", url: ""}
@@ -36,7 +47,6 @@ export default function RegisterVideo() {
     - Precisamos ter um onSubmit do nosso form
     - Limpar o formulario após o Submit
     */
-
     return (
         <StyledRegisterVideo>
             <button className="add-video" onClick={() => setFormVisivel(true)}>
@@ -50,6 +60,22 @@ export default function RegisterVideo() {
                         setFormVisivel(false)
                         formCadastro.clearForm()
                         console.log(formCadastro.values)
+
+                        // contrato entre Front e BackEnd
+                        supabase.from("video").insert({
+                            titulo: formCadastro.values.titulo ,
+                            url: formCadastro.values.url ,
+                            thumb: getThumbnail(formCadastro.values.url) ,
+                            playlist: "jogos"
+                        })
+                        .then((response) => {
+                            console.log(response)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+
+
                     }}>
                         <div>
                             <button type="button" className="close-modal" onClick={() => setFormVisivel(false)}>x</button>
