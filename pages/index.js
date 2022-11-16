@@ -3,7 +3,6 @@ import config from "../config.json"
 import styled from "styled-components"
 import Menu from "../src/components/Menu/Index"
 import { StyledTimeline } from "../src/components/Timeline"
-import { createClient } from "@supabase/supabase-js";
 import { videoService } from "../src/services/videoService";
 
 function HomePage() {
